@@ -1,3 +1,5 @@
+import * as dbService from "./contacts.js";
+
 import { program } from "commander";
 program
   .option("-a, --action <type>", "choose action")
@@ -10,23 +12,26 @@ program.parse();
 
 const options = program.opts();
 
-// TODO: рефакторити
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
-      // ...
+      const allContacts = await dbService.listContacts();
+      console.log(allContacts);
       break;
 
     case "get":
-      // ... id
+      const oneContact = await dbService.getContactById(id);
+      console.log(oneContact);
       break;
 
     case "add":
-      // ... name email phone
+      const newContact = await dbService.addContact({ name, email, phone });
+      console.log(newContact);
       break;
 
     case "remove":
-      // ... id
+      const removeContact = await dbService.removeContact(id);
+      console.log(removeContact);
       break;
 
     default:
